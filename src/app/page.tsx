@@ -19,7 +19,6 @@ export default function Home() {
           </h1>
           <p className="reveal-3 mt-6 max-w-md text-base leading-7 text-muted">
             Dices cuántos TikToks y a cuánto. Postulan. Tú eliges.
-            Recién ahí se abre el chat.
           </p>
           <div className="reveal-4 mt-8 flex flex-wrap gap-3">
             <Link href="/registro?rol=marca&next=/pegas/nueva" className="btn btn-flash">
