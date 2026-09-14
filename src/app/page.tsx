@@ -1,69 +1,99 @@
-import Image from "next/image";
+import Link from "next/link";
+import { EncargoCard } from "@/components/EncargoCard";
+import { LiveOrb } from "@/components/LiveOrb";
+import { Shell } from "@/components/Shell";
+import { ENCARGOS } from "@/lib/data";
+import { COPY_CREADOR, COPY_IG, COPY_MARCA } from "@/lib/whatsapp";
 
 export default function Home() {
+  const [featured, second, third] = ENCARGOS;
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
+    <Shell flush>
+      <section className="mx-auto grid max-w-5xl items-center gap-10 px-5 py-14 lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
+        <div>
+          <p className="reveal chip">Perú · precio cerrado</p>
+          <h1 className="reveal-2 mt-6 max-w-xl text-5xl font-semibold leading-[0.95] tracking-tight sm:text-6xl">
+            Se graba esta semana.
+            <span className="mt-2 block text-flash">El precio ya está.</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="reveal-3 mt-6 max-w-md text-base leading-7 text-muted">
+            Dices cuántos TikToks y a cuánto. Postulan. Tú eliges.
+            Recién ahí se abre el chat.
           </p>
+          <div className="reveal-4 mt-8 flex flex-wrap gap-3">
+            <Link href="/registro?rol=marca&next=/pegas/nueva" className="btn btn-flash">
+              Publicar una pega
+            </Link>
+            <Link href="/registro?rol=creador&next=/creadores/alta" className="btn btn-line">
+              Ofrecer el servicio
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <LiveOrb />
+      </section>
+
+      <section className="mx-auto max-w-5xl px-5 pb-16">
+        <div className="mb-6 flex items-end justify-between">
+          <h2 className="text-2xl font-semibold tracking-tight">Se graba ahora</h2>
+          <Link href="/pegas" className="text-sm text-muted underline underline-offset-4">
+            Ver todas
+          </Link>
         </div>
-      </main>
-    </div>
+        <div className="grid gap-4 lg:grid-cols-12">
+          <EncargoCard encargo={featured} featured className="lg:col-span-7 lg:row-span-2" />
+          <EncargoCard encargo={second} className="lg:col-span-5" />
+          <EncargoCard encargo={third} className="lg:col-span-5" />
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-5 pb-16">
+        <h2 className="text-2xl font-semibold tracking-tight">Cómo se usa</h2>
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
+          <article className="glass rounded-3xl p-5">
+            <span className="step-num">1</span>
+            <h3 className="mt-4 text-lg font-semibold">La marca publica</h3>
+            <p className="mt-2 text-sm leading-6 text-muted">
+              Qué se graba, dónde y a cuánto. El precio ya está.
+            </p>
+          </article>
+          <article className="glass rounded-3xl p-5">
+            <span className="step-num">2</span>
+            <h3 className="mt-4 text-lg font-semibold">Postulan</h3>
+            <p className="mt-2 text-sm leading-6 text-muted">
+              Quien cubre el piso se apunta. Todavía no hay chat.
+            </p>
+          </article>
+          <article className="glass rounded-3xl p-5">
+            <span className="step-num">3</span>
+            <h3 className="mt-4 text-lg font-semibold">Ella elige y chatean</h3>
+            <p className="mt-2 text-sm leading-6 text-muted">
+              El chat se abre en la web. Si quieren, se pasan el WhatsApp ahí.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-5 pb-20">
+        <h2 className="text-2xl font-semibold tracking-tight">Textos para mandar</h2>
+        <p className="mt-2 max-w-xl text-sm leading-6 text-muted">
+          Copia, cambia el nombre y mándalo. No hace falta cámara tuya.
+        </p>
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
+          <CopyCard titulo="WhatsApp a un local" texto={COPY_MARCA} />
+          <CopyCard titulo="DM a un creador" texto={COPY_CREADOR} />
+          <CopyCard titulo="Pie de Instagram" texto={COPY_IG} />
+        </div>
+      </section>
+    </Shell>
+  );
+}
+
+function CopyCard({ titulo, texto }: { titulo: string; texto: string }) {
+  return (
+    <article className="glass rounded-3xl p-5">
+      <p className="text-xs uppercase tracking-[0.14em] text-muted">{titulo}</p>
+      <p className="mt-3 whitespace-pre-line text-sm leading-6">{texto}</p>
+    </article>
   );
 }

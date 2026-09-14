@@ -1,26 +1,212 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f6f1e8;
+  --ink: #16141a;
+  --muted: #6d675c;
+  --line: rgba(22, 20, 26, 0.12);
+  --card: #fffdf8;
+  --flash: #d41408;
+  --flash-ink: #fff7f4;
+  --ok: #0f7a48;
+  --ok-bg: rgba(15, 122, 72, 0.1);
+  --warn: #9a6b00;
+  --warn-bg: rgba(154, 107, 0, 0.1);
+  --bad: #c4332c;
+  --bad-bg: rgba(196, 51, 44, 0.1);
+  color-scheme: light;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-card: var(--card);
+  --color-flash: var(--flash);
+  --color-flash-ink: var(--flash-ink);
+  --color-ok: var(--ok);
+  --color-ok-bg: var(--ok-bg);
+  --color-warn: var(--warn);
+  --color-warn-bg: var(--warn-bg);
+  --color-bad: var(--bad);
+  --color-bad-bg: var(--bad-bg);
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  background: var(--bg);
+  color: var(--ink);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  min-height: 100%;
+}
+
+.glass {
+  background: var(--card);
+  border: 1px solid var(--line);
+}
+
+.rec-dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--flash);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: fade-up 0.55s ease both;
+}
+
+.reveal-2 {
+  animation-delay: 0.07s;
+}
+
+.reveal-3 {
+  animation-delay: 0.14s;
+}
+
+.reveal-4 {
+  animation-delay: 0.21s;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.8rem 1.2rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-flash {
+  background: var(--flash);
+  color: var(--flash-ink);
+}
+
+.btn-ink {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.btn-line {
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.field {
+  width: 100%;
+  margin-top: 0.4rem;
+  border: 1px solid rgba(22, 20, 26, 0.16);
+  border-radius: 0.85rem;
+  background: #fff;
+  padding: 0.8rem 0.95rem;
+  font: inherit;
+  color: var(--ink);
+}
+
+.field:focus {
+  outline: 2px solid rgba(212, 20, 8, 0.45);
+  outline-offset: 1px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  padding: 0.22rem 0.6rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(22, 20, 26, 0.05);
+  border: 1px solid var(--line);
+}
+
+.seal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  padding: 0.26rem 0.65rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.seal-ok {
+  background: var(--ok-bg);
+  color: var(--ok);
+  border: 1px solid rgba(15, 122, 72, 0.22);
+}
+
+.seal-wait {
+  background: var(--warn-bg);
+  color: var(--warn);
+  border: 1px solid rgba(154, 107, 0, 0.22);
+}
+
+.seal-bad {
+  background: var(--bad-bg);
+  color: var(--bad);
+  border: 1px solid rgba(196, 51, 44, 0.22);
+}
+
+.step-num {
+  display: grid;
+  place-items: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.price {
+  font-family: var(--font-serif), Georgia, serif;
+  color: var(--flash);
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+}
+
+.notice {
+  border-radius: 1.2rem;
+  border: 1px solid rgba(154, 107, 0, 0.22);
+  background: var(--warn-bg);
+  padding: 1rem 1.1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-2,
+  .reveal-3,
+  .reveal-4 {
+    animation: none;
+  }
 }
