@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { RedChips } from "@/components/Fields";
 import type { Creador } from "@/lib/types";
 import { miles, soles } from "@/lib/match";
 import { countReportes, marcado } from "@/lib/store";
@@ -20,19 +21,19 @@ export function CreadorCard({ creador }: { creador: Creador }) {
   const [avisos, setAvisos] = useState(0);
 
   useEffect(() => {
-    setFlag(marcado("creador", creador.id));
-    setAvisos(countReportes("creador", creador.id));
+    marcado("creador", creador.id).then(setFlag);
+    countReportes("creador", creador.id).then(setAvisos);
   }, [creador.id]);
 
   return (
-    <article className="glass rounded-3xl p-5">
+    <article className="rounded-xl border border-line bg-card p-5">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3">
-          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-ink/10 text-sm font-semibold">
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[var(--card-2)] text-sm font-bold">
             {initials(creador.nombre)}
           </span>
           <div>
-            <h3 className="font-medium">{creador.nombre}</h3>
+            <h3 className="font-bold">{creador.nombre}</h3>
             <p className="text-sm text-muted">
               @{creador.tiktok} · {miles(creador.seguidores)} seg.
             </p>
@@ -42,7 +43,7 @@ export function CreadorCard({ creador }: { creador: Creador }) {
               <p className="seal seal-ok mt-2">Ya grabó {creador.entregas}</p>
             ) : (
               <p className="mt-2 text-[0.7rem] uppercase tracking-[0.12em] text-muted">
-                Primera pega
+                Primera vez
               </p>
             )}
           </div>
@@ -52,12 +53,15 @@ export function CreadorCard({ creador }: { creador: Creador }) {
         </p>
       </div>
       <p className="mt-3 text-sm leading-6 text-muted">{creador.estilo}</p>
-      <p className="mt-3 text-[0.7rem] uppercase tracking-[0.12em] text-muted">
-        {creador.ciudad}
-        {" · "}
-        {creador.nichos.join(" · ")}
-        {avisos > 0 ? ` · ${avisos} reportes` : ""}
-      </p>
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <RedChips redes={creador.redes} />
+        <p className="text-[0.7rem] uppercase tracking-[0.12em] text-muted">
+          {creador.ciudad}
+          {" · "}
+          {creador.nichos.join(" · ")}
+          {avisos > 0 ? ` · ${avisos} reportes` : ""}
+        </p>
+      </div>
       <div className="mt-3">
         <Link
           href={`/reportar?tipo=creador&id=${creador.id}`}

@@ -12,6 +12,7 @@ export const CREADORES: Creador[] = [
     estilo: "Come en cámara, sin voz de comercial. Barranco y Miraflores.",
     whatsapp: "900000011",
     entregas: 3,
+    redes: ["tiktok", "instagram"],
   },
   {
     id: "lucia-surco",
@@ -24,6 +25,7 @@ export const CREADORES: Creador[] = [
     estilo: "Reseñas de 20 segundos. Muestra textura, no pose.",
     whatsapp: "900000012",
     entregas: 2,
+    redes: ["instagram", "tiktok"],
   },
   {
     id: "diego-gym",
@@ -36,6 +38,7 @@ export const CREADORES: Creador[] = [
     estilo: "Rutinas cortas en gym de barrio. Habla como socio, no como coach.",
     whatsapp: "900000013",
     entregas: 1,
+    redes: ["tiktok", "facebook"],
   },
   {
     id: "valeria-gamarra",
@@ -160,6 +163,7 @@ export const ENCARGOS: Encargo[] = [
     brief:
       "Cinco TikToks de platos del día. Comer en mesa, no voz de comercial. Derechos para pauta 30 días.",
     createdAt: "2026-09-11T15:00:00.000Z",
+    redes: ["tiktok"],
   },
   {
     id: "serum-miraflores",
@@ -173,6 +177,7 @@ export const ENCARGOS: Encargo[] = [
     brief:
       "Tres reseñas del serum. Mostrar textura y rutina de noche. Enviamos el producto a Surco o Miraflores.",
     createdAt: "2026-09-10T18:20:00.000Z",
+    redes: ["tiktok", "instagram"],
   },
   {
     id: "gym-surco",
@@ -186,6 +191,7 @@ export const ENCARGOS: Encargo[] = [
     brief:
       "Cuatro clips de 15s en el local de Surco. Socio real, no modelo. Horario 7 a 9 am.",
     createdAt: "2026-09-12T08:10:00.000Z",
+    redes: ["tiktok", "facebook"],
   },
   {
     id: "dark-san-miguel",
@@ -225,6 +231,7 @@ export const ENCARGOS: Encargo[] = [
     brief:
       "Prueba 4 outfits de Gamarra. Decir talla y precio. Canje no: se paga el video.",
     createdAt: "2026-09-11T11:30:00.000Z",
+    redes: ["instagram", "facebook"],
   },
   {
     id: "tour-cusco",

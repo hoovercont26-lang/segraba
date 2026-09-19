@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { entrar, registrar } from "@/lib/auth";
+import { supabaseConfigured } from "@/lib/supabase/client";
 import type { Rol } from "@/lib/types";
 
 export function AuthForm({ mode }: { mode: "entrar" | "registro" }) {
@@ -43,6 +44,15 @@ export function AuthForm({ mode }: { mode: "entrar" | "registro" }) {
     } finally {
       setBusy(false);
     }
+  }
+
+  if (!supabaseConfigured()) {
+    return (
+      <p className="text-sm leading-6 text-muted">
+        Falta conectar Supabase. Crea el proyecto free, pega el SQL y
+        pon la URL y la clave anónima en <code>.env.local</code>.
+      </p>
+    );
   }
 
   return (

@@ -4,16 +4,16 @@ import { COPY_CREADOR, COPY_IG, COPY_MARCA } from "@/lib/whatsapp";
 
 const pasos = [
   {
-    t: "La marca publica",
-    d: "Qué se graba, la ciudad y el pago por video. El precio ya está.",
+    t: "El negocio publica",
+    d: "Qué se graba, en qué red, la ciudad y el pago por video. Mínimo S/ 100.",
   },
   {
-    t: "Los creadores postulan",
-    d: "Si el piso les alcanza, se apuntan. Todavía no ven el WhatsApp de nadie.",
+    t: "Los creadores se apuntan",
+    d: "Si les alcanza el precio, se anotan. Todavía no ven el WhatsApp de nadie.",
   },
   {
-    t: "La marca elige",
-    d: "Revisa quién postuló y escoge al que más le convenga.",
+    t: "El negocio elige",
+    d: "Revisa quién se anotó y escoge al que más le convenga.",
   },
   {
     t: "Se abre el chat en la web",
@@ -24,22 +24,24 @@ const pasos = [
 export default function ComoFuncionaPage() {
   return (
     <Shell>
-      <p className="text-xs uppercase tracking-[0.16em] text-muted">
+      <p className="text-xs font-bold uppercase tracking-wider text-flash">
         Cómo funciona
       </p>
-      <h1 className="mt-3 max-w-2xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
-        El precio ya está. Se graba esta semana.
+      <h1 className="mt-3 max-w-2xl font-display text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+        El precio ya está.{" "}
+        <span className="text-flash">Se graba esta semana.</span>
       </h1>
       <p className="mt-4 max-w-xl text-base leading-7 text-muted">
-        UGC.red es el directorio. Nosotros somos el clasificado: 5
-        videos, una ciudad, un monto. Postulan. La marca elige.
+        Clasificado de precio cerrado: cuántos videos, una ciudad, un
+        monto. TikTok primero; Instagram y Facebook también. Postulan.
+        El negocio elige.
       </p>
 
       <ol className="mt-10 grid gap-4 md:grid-cols-2">
         {pasos.map((paso, i) => (
-          <li key={paso.t} className="glass rounded-3xl p-5">
+          <li key={paso.t} className="rounded-xl border border-line bg-card p-5">
             <span className="step-num">{i + 1}</span>
-            <h2 className="mt-4 text-xl font-semibold">{paso.t}</h2>
+            <h2 className="mt-4 font-display text-xl font-bold">{paso.t}</h2>
             <p className="mt-2 text-sm leading-6 text-muted">{paso.d}</p>
           </li>
         ))}

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" fill="none" aria-hidden="true">
+  <rect x="0" y="4" width="52" height="52" rx="14" fill="#E2F802"/>
+  <circle cx="26" cy="30" r="12" fill="#111315"/>
+  <circle cx="26" cy="30" r="6" fill="#E2F802"/>
+  <circle cx="36" cy="18" r="3.5" fill="#E6007A"/>
+  <text x="64" y="38" font-family="Syne, sans-serif" font-weight="900" font-size="28" fill="#FFFFFF" letter-spacing="-0.03em">SE<tspan fill="#E2F802">GRABA</tspan></text>
+  <text x="64" y="49" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="9" fill="#8E929B" letter-spacing="0.12em">UGC · NEGOCIOS PERÚ</text>
+</svg>

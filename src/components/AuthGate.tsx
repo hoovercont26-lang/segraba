@@ -19,7 +19,7 @@ export function AuthGate({
   const [user, setUser] = useState<Usuario | null | undefined>(undefined);
 
   useEffect(() => {
-    setUser(usuarioActual());
+    usuarioActual().then(setUser);
   }, [pathname]);
 
   if (user === undefined) {
@@ -63,8 +63,9 @@ export function AuthGate({
           Te falta este lado
         </h1>
         <p className="mt-3 text-sm leading-6 text-muted">
-          Tu cuenta está como {user.roles.join(" y ")}. Para esta acción
-          entra a tu cuenta y suma el otro rol.
+          Tu cuenta está como{" "}
+          {user.roles.map((r) => (r === "marca" ? "negocio" : "creador")).join(" y ")}.
+          Para esta acción entra a tu cuenta y suma el otro lado.
         </p>
         <Link href="/cuenta" className="btn btn-flash mt-6">
           Ir a mi cuenta

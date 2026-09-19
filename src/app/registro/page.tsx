@@ -10,8 +10,8 @@ export default function RegistroPage() {
         Crear cuenta
       </h1>
       <p className="mt-3 max-w-md text-sm leading-6 text-muted">
-        Elige si publicas pega o ofreces el servicio. Luego puedes
-        sumar el otro lado.
+        Elige si publicas un aviso o si grabas videos. Después puedes
+        hacer las dos cosas.
       </p>
       <div className="mt-8">
         <Suspense fallback={<p className="text-muted">Cargando…</p>}>

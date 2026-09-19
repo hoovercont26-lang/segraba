@@ -11,7 +11,7 @@ import {
   listMensajes,
   puedeVerChat,
 } from "@/lib/store";
-import type { Mensaje, Postulacion } from "@/lib/types";
+import type { Mensaje, Postulacion, Usuario } from "@/lib/types";
 
 export function ChatRoom({ id }: { id: string }) {
   const [post, setPost] = useState<Postulacion | undefined>();
@@ -19,19 +19,38 @@ export function ChatRoom({ id }: { id: string }) {
   const [texto, setTexto] = useState("");
   const [ready, setReady] = useState(false);
   const [denied, setDenied] = useState(false);
+  const [yo, setYo] = useState<Usuario | null>(null);
+  const [marca, setMarca] = useState("");
+  const [creadorNombre, setCreadorNombre] = useState("");
+  const [nombres, setNombres] = useState<Record<string, string>>({});
   const end = useRef<HTMLDivElement>(null);
 
-  function reload() {
-    const current = usuarioActual();
-    const postulacion = getPostulacion(id);
-    if (!current || !postulacion || !puedeVerChat(current.id, postulacion)) {
+  async function reload() {
+    const current = await usuarioActual();
+    const postulacion = await getPostulacion(id);
+    if (!current || !postulacion || !(await puedeVerChat(current.id, postulacion))) {
       setDenied(true);
       setReady(true);
       return;
     }
     setDenied(false);
+    setYo(current);
     setPost(postulacion);
-    setMsgs(listMensajes(id));
+    const [lista, aviso, creador] = await Promise.all([
+      listMensajes(id),
+      getEncargo(postulacion.pegaId),
+      getCreador(postulacion.creadorId),
+    ]);
+    setMsgs(lista);
+    setMarca(aviso?.marca || "");
+    setCreadorNombre(creador?.nombre || "");
+    const ids = [...new Set(lista.map((m) => m.deId))];
+    const gente = await Promise.all(ids.map((uid) => getUsuario(uid)));
+    setNombres(
+      Object.fromEntries(
+        gente.filter(Boolean).map((u) => [u!.id, u!.nombre.split(" ")[0] || "Alguien"]),
+      ),
+    );
     setReady(true);
   }
 
@@ -50,24 +69,20 @@ export function ChatRoom({ id }: { id: string }) {
       <div className="glass max-w-lg rounded-3xl p-6">
         <h1 className="text-2xl font-semibold">Este chat aún no está</h1>
         <p className="mt-3 text-sm leading-6 text-muted">
-          La marca elige a un creador y recién ahí se abre. Si ya te
+          El negocio elige a un creador y recién ahí se abre. Si ya te
           eligieron, entra con esa cuenta.
         </p>
         <Link href="/pegas" className="btn btn-line mt-6">
-          Ver pega
+          Ver avisos
         </Link>
       </div>
     );
   }
 
-  const pega = getEncargo(post.pegaId);
-  const creador = getCreador(post.creadorId);
-  const yo = usuarioActual();
-
   return (
     <div className="mx-auto flex max-w-2xl flex-col">
       <p className="text-xs uppercase tracking-[0.14em] text-muted">
-        Chat · {pega?.marca} · {creador?.nombre}
+        Chat · {marca} · {creadorNombre}
       </p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight">
         Acuerden aquí
@@ -86,7 +101,7 @@ export function ChatRoom({ id }: { id: string }) {
           ) : null}
           {msgs.map((m) => {
             const mio = m.deId === yo?.id;
-            const nombre = getUsuario(m.deId)?.nombre.split(" ")[0] || "Alguien";
+            const nombre = nombres[m.deId] || "Alguien";
             return (
               <div key={m.id} className={mio ? "text-right" : "text-left"}>
                 <p className="text-[0.7rem] uppercase tracking-[0.1em] text-muted">
@@ -94,7 +109,7 @@ export function ChatRoom({ id }: { id: string }) {
                 </p>
                 <p
                   className={`mt-1 inline-block max-w-[85%] rounded-2xl px-4 py-2 text-sm leading-6 ${
-                    mio ? "bg-ink text-bg" : "bg-ink/5"
+                    mio ? "bg-flash text-flash-ink" : "bg-[var(--card-2)]"
                   }`}
                 >
                   {m.texto}
@@ -106,12 +121,12 @@ export function ChatRoom({ id }: { id: string }) {
         </div>
         <form
           className="mt-4 flex gap-2"
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
             if (!yo || !texto.trim()) return;
-            enviarMensaje(post.id, yo.id, texto);
+            await enviarMensaje(post.id, yo.id, texto);
             setTexto("");
-            setMsgs(listMensajes(post.id));
+            await reload();
           }}
         >
           <input

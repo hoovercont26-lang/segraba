@@ -20,10 +20,10 @@ export function mensajeCreadorAMarca(encargo: Encargo, creador: Creador) {
 }
 
 export const COPY_MARCA =
-  "Hola, soy [tu local]. Quiero 5 TikToks foodie esta semana a S/ 350 c/u, en SeGraba. ¿Te late?";
+  "Hola, soy [tu local]. Quiero 5 videos foodie esta semana a S/ 350 c/u, en SeGraba. TikTok o Reels. ¿Te late?";
 
 export const COPY_CREADOR =
-  "Hay pega foodie S/ 380 en Barranco, precio cerrado. Entras, aceptas y escribes.";
+  "Hay un aviso foodie S/ 380 en Barranco, precio cerrado. Entras, te apuntas y escribes.";
 
 export const COPY_IG =
   "Se graba esta semana. El precio ya está.\n5 TikToks · Barranco · S/ 380\nEntra y acepta.";

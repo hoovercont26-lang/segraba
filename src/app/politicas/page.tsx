@@ -12,7 +12,7 @@ export default function PoliticasPage() {
         Pago, reportes y uso de SeGraba
       </h1>
       <p className="mt-4 max-w-xl text-base leading-7 text-muted">
-        SeGraba es un clasificado: la marca publica un precio, el
+        SeGraba es un clasificado: el negocio publica un precio, el
         creador acepta. El dinero no pasa por nosotros.
       </p>
 

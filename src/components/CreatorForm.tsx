@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { NumberField, RedesPicker } from "@/components/Fields";
 import { usuarioActual } from "@/lib/auth";
 import { slugify } from "@/lib/match";
-import { perfilDe, saveCreador } from "@/lib/store";
-import { CIUDADES, NICHOS, type Ciudad, type Nicho } from "@/lib/types";
+import { PRECIO_MAX, PRECIO_MIN, precioOk, type NumDraft } from "@/lib/money";
+import { perfilDe, planActivo, saveCreador } from "@/lib/store";
+import { CIUDADES, NICHOS, redesDe, type Ciudad, type Nicho, type Red } from "@/lib/types";
 
 export function CreatorForm() {
   const router = useRouter();
@@ -14,28 +16,37 @@ export function CreatorForm() {
   const [whatsapp, setWhatsapp] = useState("");
   const [ciudad, setCiudad] = useState<Ciudad>("Lima");
   const [nicho, setNicho] = useState<Nicho>("Foodie");
-  const [minPrecio, setMinPrecio] = useState(300);
+  const [minPrecio, setMinPrecio] = useState<NumDraft>(300);
   const [estilo, setEstilo] = useState("");
+  const [redes, setRedes] = useState<Red[]>(["tiktok"]);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const user = usuarioActual();
-    if (!user) return;
-    const existing = perfilDe(user.id);
-    setNombre(existing?.nombre || user.nombre);
-    setWhatsapp(existing?.whatsapp || user.whatsapp);
-    if (existing) {
-      setTiktok(existing.tiktok);
-      setCiudad(existing.ciudad);
-      setNicho(existing.nichos[0] || "Foodie");
-      setMinPrecio(existing.minPrecio);
-      setEstilo(existing.estilo);
-    }
-  }, []);
+    usuarioActual().then(async (user) => {
+      if (!user) return;
+      const existing = await perfilDe(user.id);
+      const params = new URLSearchParams(window.location.search);
+      const editing = params.get("edit") === "1";
+      if (existing && !editing && !planActivo(user)) {
+        router.replace("/creadores/plan");
+        return;
+      }
+      setNombre(existing?.nombre || user.nombre);
+      setWhatsapp(existing?.whatsapp || user.whatsapp);
+      if (existing) {
+        setTiktok(existing.tiktok);
+        setCiudad(existing.ciudad);
+        setNicho(existing.nichos[0] || "Foodie");
+        setMinPrecio(existing.minPrecio);
+        setEstilo(existing.estilo);
+        setRedes(redesDe(existing));
+      }
+    });
+  }, [router]);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const user = usuarioActual();
+    const user = await usuarioActual();
     if (!user) {
       setError("Entra para ofrecer el servicio.");
       return;
@@ -51,11 +62,15 @@ export function CreatorForm() {
     }
     const handle = tiktok.replace(/^@/, "").trim();
     if (handle.length < 2) {
-      setError("Pon tu usuario de TikTok.");
+      setError("Pon tu usuario de TikTok, Instagram o Facebook.");
       return;
     }
-    const existing = perfilDe(user.id);
-    saveCreador({
+    if (!precioOk(minPrecio)) {
+      setError(`Tu precio mínimo va de S/ ${PRECIO_MIN} a S/ ${PRECIO_MAX.toLocaleString("es-PE")}.`);
+      return;
+    }
+    const existing = await perfilDe(user.id);
+    await saveCreador({
       id: existing?.id || slugify(`${nombre}-${handle}`) || `creador-${Date.now()}`,
       autorId: user.id,
       nombre: nombre.trim(),
@@ -63,12 +78,20 @@ export function CreatorForm() {
       ciudad,
       nichos: [nicho],
       minPrecio,
+      redes,
       seguidores: existing?.seguidores || 800,
       estilo: estilo.trim() || "Grabo UGC con precio cerrado.",
       whatsapp: phone,
       entregas: existing?.entregas || 0,
     });
-    router.push("/pegas");
+    const refreshed = await usuarioActual();
+    if (!planActivo(refreshed)) {
+      router.push("/creadores/plan");
+      return;
+    }
+    const params = new URLSearchParams(window.location.search);
+    const next = params.get("next");
+    router.push(next && next.startsWith("/") ? next : "/pegas");
   }
 
   return (
@@ -83,14 +106,23 @@ export function CreatorForm() {
         />
       </label>
       <label className="block">
-        <span className="text-sm">TikTok</span>
+        <span className="text-sm">Usuario principal</span>
         <input
           className="field"
           value={tiktok}
           onChange={(e) => setTiktok(e.target.value)}
           placeholder="camcome.pe"
         />
+        <span className="mt-1.5 block text-xs leading-5 text-muted">
+          El de TikTok, Instagram o Facebook que más uses.
+        </span>
       </label>
+      <RedesPicker
+        label="Dónde grabas"
+        hint="Puedes marcar más de una. TikTok, Reels e IG y Facebook."
+        value={redes}
+        onChange={setRedes}
+      />
       <label className="block">
         <span className="text-sm">WhatsApp (9 dígitos)</span>
         <input
@@ -115,7 +147,7 @@ export function CreatorForm() {
           </select>
         </label>
         <label className="block">
-          <span className="text-sm">Nicho</span>
+          <span className="text-sm">Rubro</span>
           <select
             className="field"
             value={nicho}
@@ -127,17 +159,13 @@ export function CreatorForm() {
           </select>
         </label>
       </div>
-      <label className="block">
-        <span className="text-sm">No bajo de (S/ por video)</span>
-        <input
-          type="number"
-          min={200}
-          max={2000}
-          className="field"
-          value={minPrecio}
-          onChange={(e) => setMinPrecio(Number(e.target.value))}
-        />
-      </label>
+      <NumberField
+        label="No bajo de (S/ por video)"
+        hint={`Mínimo S/ ${PRECIO_MIN}`}
+        value={minPrecio}
+        onChange={setMinPrecio}
+        placeholder="300"
+      />
       <label className="block">
         <span className="text-sm">Cómo grabas</span>
         <textarea
