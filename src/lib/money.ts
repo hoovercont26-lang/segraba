@@ -114,7 +114,12 @@ export function solesFee(n: number) {
   return `S/ ${n.toFixed(2)}`;
 }
 
-export function avisoPublico(encargo: Pick<Encargo, "estado">) {
+/** Aviso visible en el feed y abierto a postulaciones. */
+export function avisoPublico(
+  encargo: Pick<Encargo, "estado" | "elegidoPostulacionId">,
+) {
+  if (encargo.elegidoPostulacionId) return false;
+  if (encargo.estado === "cerrado") return false;
   return !encargo.estado || encargo.estado === "publicado";
 }
 

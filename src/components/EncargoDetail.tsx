@@ -86,11 +86,19 @@ export function EncargoDetail({ id }: { id: string }) {
   const alAire = avisoPublico(encargo);
 
   if (!alAire && !soyMarca) {
+    const cerrado =
+      encargo.estado === "cerrado" || Boolean(encargo.elegidoPostulacionId);
     return (
       <div className="mx-auto max-w-5xl px-5 py-10">
-        <h1 className="text-4xl font-semibold tracking-tight">Ese aviso aún no está al aire</h1>
+        <h1 className="font-display text-4xl font-bold tracking-tight">
+          {cerrado
+            ? "Este aviso ya eligió creador"
+            : "Ese aviso aún no está al aire"}
+        </h1>
         <p className="mt-3 max-w-xl text-sm leading-6 text-muted">
-          El negocio todavía está pagando o estamos validando el Yape.
+          {cerrado
+            ? "Ya no aparece en el listado ni recibe nuevas apuntadas."
+            : "El negocio todavía está pagando o estamos validando el Yape."}
         </p>
         <Link href="/pegas" className="btn btn-line mt-6">
           Ver avisos
@@ -183,6 +191,20 @@ export function EncargoDetail({ id }: { id: string }) {
                 Plin, este aviso se lanza y te avisamos en Novedades.
               </p>
             </div>
+          ) : null}
+
+          {(encargo.estado === "cerrado" || encargo.elegidoPostulacionId) &&
+          soyMarca ? (
+            <p className="seal seal-ok mt-6">
+              Creador elegido · ya no aparece en el feed
+            </p>
+          ) : null}
+
+          {(encargo.estado === "cerrado" || encargo.elegidoPostulacionId) &&
+          soyMarca ? (
+            <p className="seal seal-ok mt-6">
+              Creador elegido · ya no aparece en el feed
+            </p>
           ) : null}
 
           <div className="mt-8 flex flex-wrap items-end gap-8">

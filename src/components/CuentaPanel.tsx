@@ -23,6 +23,9 @@ import { MOTIVOS_REPORTE } from "@/lib/types";
 function selloAviso(item: Encargo) {
   if (item.estado === "esperando-pago") return { label: "Falta pagar", cls: "seal seal-bad" };
   if (item.estado === "validando") return { label: "Validando pago", cls: "seal seal-wait" };
+  if (item.estado === "cerrado" || item.elegidoPostulacionId) {
+    return { label: "Creador elegido", cls: "seal seal-ok" };
+  }
   return { label: "Al aire", cls: "seal seal-ok" };
 }
 

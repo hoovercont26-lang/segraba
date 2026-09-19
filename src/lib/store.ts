@@ -538,7 +538,13 @@ export async function postular(input: {
   }
   const pega = await getEncargo(input.pegaId);
   if (!pega) fail("Ese aviso no está.");
-  if (!avisoPublico(pega)) fail("Ese aviso aún no está al aire.");
+  if (!avisoPublico(pega)) {
+    fail(
+      pega.elegidoPostulacionId || pega.estado === "cerrado"
+        ? "Ese aviso ya eligió creador y ya no recibe apuntadas."
+        : "Ese aviso aún no está al aire.",
+    );
+  }
   const supabase = createClient();
   const { data: row, error: userErr } = await supabase
     .from("profiles")
@@ -607,7 +613,13 @@ export async function elegirPostulacion(id: string) {
     .eq("estado", "pendiente");
   dbError(rest);
   const pega = await getEncargo(chosen.pegaId);
-  if (pega) await saveEncargo({ ...pega, elegidoPostulacionId: id });
+  if (pega) {
+    await saveEncargo({
+      ...pega,
+      elegidoPostulacionId: id,
+      estado: "cerrado",
+    });
+  }
   const creador = await getCreador(chosen.creadorId);
   if (chosen.autorId && pega) {
     await notificar({

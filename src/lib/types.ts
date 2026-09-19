@@ -32,7 +32,11 @@ export function redesDe(item: { redes?: Red[] }): Red[] {
   return item.redes && item.redes.length > 0 ? item.redes : ["tiktok"];
 }
 
-export type EstadoAviso = "esperando-pago" | "validando" | "publicado";
+export type EstadoAviso =
+  | "esperando-pago"
+  | "validando"
+  | "publicado"
+  | "cerrado";
 export type MetodoPago = "yape" | "plin";
 
 export type PagoPublicacion = {
