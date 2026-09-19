@@ -145,7 +145,7 @@ export function EncargoDetail({ id }: { id: string }) {
   return (
     <div>
       <div className="px-5 py-10 sm:py-12">
-        <div className="glass glass-hot mx-auto max-w-5xl p-5 sm:p-8">
+        <div className="glass glass-hot mx-auto max-w-5xl p-5 sm:p-8 lg:p-10">
           {flag ? (
             <p className="seal seal-bad">{avisos} reportes</p>
           ) : (
@@ -156,7 +156,7 @@ export function EncargoDetail({ id }: { id: string }) {
               <RedChips redes={encargo.redes} />
             </div>
           )}
-          <h1 className="mt-4 font-display text-4xl font-bold tracking-tight sm:text-5xl">
+          <h1 className="mt-4 font-display text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
             {encargo.marca}
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-7 text-muted">

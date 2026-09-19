@@ -33,24 +33,26 @@ export function EncargoCard({
   return (
     <Link
       href={`/pegas/${encargo.id}`}
-      className={`group block rounded-xl border border-line bg-card p-4 transition-transform hover:-translate-y-0.5 ${
-        featured ? "glass-hot sm:p-5" : ""
+      className={`group block rounded-xl border border-line bg-card p-4 transition-transform hover:-translate-y-0.5 lg:p-5 ${
+        featured ? "glass-hot sm:p-5 lg:p-7" : ""
       } ${className}`}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-center gap-2.5">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--card-2)] text-xs font-bold text-ink">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--card-2)] text-xs font-bold text-ink lg:h-11 lg:w-11 lg:text-sm">
             {initials || "SG"}
           </div>
           <div className="min-w-0">
             <h2
               className={`truncate font-bold leading-tight ${
-                featured ? "font-display text-2xl sm:text-3xl" : "text-base"
+                featured
+                  ? "font-display text-2xl sm:text-3xl lg:text-4xl"
+                  : "text-base lg:text-lg"
               }`}
             >
               {encargo.marca}
             </h2>
-            <p className="truncate text-[11px] font-semibold uppercase tracking-wider text-muted">
+            <p className="truncate text-[11px] font-semibold uppercase tracking-wider text-muted lg:text-xs">
               {encargo.ciudad} · {encargo.nicho}
             </p>
           </div>
@@ -59,7 +61,11 @@ export function EncargoCard({
           <p className="text-[10px] font-bold uppercase tracking-wider text-cyan">
             Pago fijo
           </p>
-          <p className={`price mt-0.5 ${featured ? "text-4xl sm:text-5xl" : "text-2xl"}`}>
+          <p
+            className={`price mt-0.5 ${
+              featured ? "text-4xl sm:text-5xl lg:text-6xl" : "text-2xl lg:text-3xl"
+            }`}
+          >
             {soles(encargo.precio)}
           </p>
         </div>

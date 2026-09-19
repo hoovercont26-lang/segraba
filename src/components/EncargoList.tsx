@@ -87,12 +87,12 @@ export function EncargoList() {
           </label>
         </div>
       </div>
-      <div className="grid gap-4">
+      <div className="grid gap-4 lg:grid-cols-2 lg:gap-5">
         {filtered.map((encargo) => (
           <EncargoCard key={encargo.id} encargo={encargo} />
         ))}
         {filtered.length === 0 ? (
-          <p className="text-sm text-muted">
+          <p className="text-sm text-muted lg:col-span-2">
             No hay avisos con ese filtro. Prueba otra ciudad o rubro.
           </p>
         ) : null}

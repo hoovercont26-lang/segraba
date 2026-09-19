@@ -21,7 +21,7 @@ export function HomeAvisos() {
   if (!featured) return null;
 
   return (
-    <div className="grid gap-4 lg:grid-cols-12">
+    <div className="grid gap-4 lg:grid-cols-12 lg:gap-5">
       <EncargoCard encargo={featured} featured className="lg:col-span-7 lg:row-span-2" />
       {second ? <EncargoCard encargo={second} className="lg:col-span-5" /> : null}
       {third ? <EncargoCard encargo={third} className="lg:col-span-5" /> : null}

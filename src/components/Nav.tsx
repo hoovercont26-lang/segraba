@@ -35,25 +35,28 @@ export function Nav() {
 
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-bg/85 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-3 px-4 sm:px-5">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-5 lg:h-[4.25rem] lg:px-8">
         <Link href="/" className="flex min-w-0 items-center gap-2">
           <Image
             src="/brand/logo.png"
             alt="SeGraba"
             width={140}
             height={36}
-            className="h-8 w-auto"
+            className="h-8 w-auto lg:h-9"
             priority
           />
         </Link>
-        <nav className="flex flex-wrap items-center justify-end gap-x-3 gap-y-1 text-sm text-muted sm:gap-x-4">
+        <nav className="flex flex-wrap items-center justify-end gap-x-3 gap-y-1 text-sm text-muted sm:gap-x-4 lg:flex-nowrap lg:gap-x-5">
           <Link href="/pegas" className="hidden hover:text-ink sm:inline">
             Avisos
           </Link>
           <Link href="/como-funciona" className="hidden hover:text-ink md:inline">
             Cómo funciona
           </Link>
-          <span className="hidden items-center gap-1.5 rounded-full bg-card-2/80 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-cyan sm:inline-flex">
+          <Link href="/creadores/plan" className="hidden hover:text-ink lg:inline">
+            Planes
+          </Link>
+          <span className="hidden items-center gap-1.5 rounded-full bg-card-2/80 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-cyan lg:inline-flex">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyan" />
             Lima, PE
           </span>
